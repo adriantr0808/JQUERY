@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selectores</title>
+    <style>
+        .rojo{
+            color:red;
+        }
+    </style>
+
+</head>
+<body>
+    <script src="jquery-3.6.0.min.js"></script> <!--Siempre cerrar la etiqueta script-->
+    <script>
+        $(document).ready(function(){
+            //alert("Se ve?");
+            //Acciones
+            //$('h1').hide();
+            //Eventos/Cuando/listener
+            $(".rojo").click(function(){ //Ahora mismo esta colocado para que cuando pulses sobre el titulo "rojo" desaparezca
+                //Selector de etiquetas
+                //$('h1').show();
+
+               //Selector de estilos
+               //$('.rojo').hide();
+
+               //Selector de id
+               //$('#titulo2').hide();
+
+               $(this).fadeOut(5000);
+            });
+        });
+    </script> 
+    <h1>TITULO 1</h1>
+    <h2 id="titulo2">TITULO 2</h2>
+    <h3 class="rojo">TITULO 3</h3>
+    <button>Soy boton 1</button>
+
+  
+      
+</body>
+</html>

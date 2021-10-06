@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculo Dia de nacimiento de la semana</title>
+</head>
+
+<body>
+    <h2>Dia de nacimineto</h2>
+    <label>Introduce el dia en que naciste:</label>
+    <input type="number" id="dia">
+    <hr>
+    <br>
+    <label>Introduce el mes en que naciste:</label>
+    <input type="number" id="mes">
+    <hr>
+    <br>
+    <label>Introduce el año en que naciste:</label>
+    <input type="number" id="anyo">
+    <hr>
+    <br>
+    <button type="button" id="analizar"> Analizar</button>
+    <h1></h1>
+    <script src="jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('button').click(function () {
+                var dia = Math.trunc(($('#dia').val()));
+                var mes = Math.trunc(($('#mes').val()));
+                var anyo = Math.trunc(($('#anyo').val()));
+                var op1;
+                var op2;
+                var op3;
+                var op4;
+                var op5;
+                var op6;
+                var op7;
+
+                if (mes == 1) {
+                    mes = 13;
+                    anyo = anyo - 1;
+                } else if (mes == 2) {
+                    mes = 14;
+                    anyo = anyo - 1;
+                }
+
+                op1 = Math.trunc((((mes + 1) * 3) / 5));
+                //console.log("Operacion 1 "+op1);
+                op2 = Math.trunc((anyo / 4));
+                //console.log("Operacion 2 "+op2);
+                op3 = Math.trunc((anyo / 100));
+                //console.log("Operacion 3 "+op3);
+                op4 = Math.trunc((anyo / 400));
+                //console.log("Operacion 4 "+op4);
+                op5 = Math.trunc((dia + (mes * 2) + anyo + op1 + op2 - op3 + op4 + 2));
+                //console.log("Operacion 5 "+op5);
+                op6 = Math.trunc((op5 / 7));
+                //console.log("Operacion 6 "+op6);
+                op7 = Math.trunc((op5 - (op6 * 7)));
+                //console.log("Operacion 7 "+op7);
+
+                switch(op7){
+                    case 0: 
+                        $('h1').text("Naciste un Sábado");
+                    break;
+                    case 1: 
+                        $('h1').text("Naciste un Domingo");
+                    break;
+                    case 2: 
+                        $('h1').text("Naciste un Lunes");
+                    break;
+                    case 3: 
+                        $('h1').text("Naciste un Martes");
+                    break;
+                    case 4: 
+                        $('h1').text("Naciste un Miércoles");
+                    break;
+                    case 5: 
+                        $('h1').text("Naciste un Jueves");
+                    break;
+                    case 6: 
+                        $('h1').text("Naciste un Viernes");
+                    break;
+                }
+
+            });
+
+        });
+    </script>
+</body>
+
+</html>
