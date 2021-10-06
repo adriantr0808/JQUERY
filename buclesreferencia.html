@@ -13,17 +13,12 @@
 
             function cambiarColor() {
                 var colores = ["blue", "red", "purple", "yellow", "green", "pink", "black", "grey"];
-
                 //QUEREMOS QUE CADA P TENGA UN COLOR DISTINTO AL PULSAR SOBRE CUALQUIERA DE ELLOS
-
                 $('p').each(function () {
                     var indice = parseInt(Math.random() * colores.length);
                     //RECUPERAMOS EL COLOR ALEATORIO
-
                     var color = colores[indice];
-
                     //CAMBIAMOS EL COLOR A CADA P DEL EACH
-
                     $(this).css("background-color", color);
                 });
             }
