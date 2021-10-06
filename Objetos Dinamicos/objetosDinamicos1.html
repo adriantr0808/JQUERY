@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Practica 1 de Objetos dinámicos</title>
-    <script src="jquery-3.6.0.min.js"></script>
+    <script src="../jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function () {
             $('#rango').change(crearImagenes);
@@ -27,14 +27,14 @@
                     //Creamos dinamicamente una imagen y la guardamos en una variable
                     var img = $('<img>');
                     //A la imagen le doy un atributo src
-                    img.attr('src', 'img/1.jpg');
+                    img.attr('src', '../img/1.jpg');
                     //Agrego el evento dinamicamente, si paso por encima de la imagen con el raton se cambiará a la imagen 2, si lo quito saldrá la imagen 1
                     img.mouseover(function () {
-                        $(this).attr('src', 'img/2.jpg');
+                        $(this).attr('src', '../img/2.jpg');
                     });
                     
                     img.mouseout(function () {
-                        $(this).attr('src', 'img/1.jpg');
+                        $(this).attr('src', '../img/1.jpg');
                     });
 
                     //Agrego dinamicamente al div contenedor, la imagen.
