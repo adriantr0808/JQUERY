@@ -11,22 +11,33 @@
         $(document).ready(function () {
             $('#rango').change(crearImagenes);
             
-            //hola
+            
             function crearImagenes() {
+                //Cogemos el div con id contenedor
                 var contenedor = $('#contenedor');
+                //Vaciamos el div para que salgan la cantidad de imagenes que queremos
                 contenedor.text("");
+                //Cogemos el input con id rango
                 var inputRango = $('#rango');
+                //Cogemos el valor que tenga el input
                 var valor = parseInt(inputRango.val());
-                console.log(valor);
+                // console.log(valor);
+                //Hacemos un bucle que sacara tantas imagenes como valor del input esté seleccionado
                 for (var i = 1; i <= valor; i++) {
+                    //Creamos dinamicamente una imagen y la guardamos en una variable
                     var img = $('<img>');
+                    //A la imagen le doy un atributo src
                     img.attr('src', 'img/1.jpg');
+                    //Agrego el evento dinamicamente, si paso por encima de la imagen con el raton se cambiará a la imagen 2, si lo quito saldrá la imagen 1
                     img.mouseover(function () {
                         $(this).attr('src', 'img/2.jpg');
                     });
+                    
                     img.mouseout(function () {
                         $(this).attr('src', 'img/1.jpg');
                     });
+
+                    //Agrego dinamicamente al div contenedor, la imagen.
                     contenedor.append(img);
                 }
             }
