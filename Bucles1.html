@@ -15,8 +15,10 @@
                 var colores = ["blue", "red", "purple", "yellow", "green", "pink", "black", "grey"];
                 //QUEREMOS QUE CADA P TENGA UN COLOR DISTINTO AL PULSAR SOBRE CUALQUIERA DE ELLOS
                 $('p').each(function () {
+                    //Sacamos un indice (número) aleatorio del array
                     var indice = parseInt(Math.random() * colores.length);
                     //RECUPERAMOS EL COLOR ALEATORIO
+                    //Sacamos un color aleatorio
                     var color = colores[indice];
                     //CAMBIAMOS EL COLOR A CADA P DEL EACH
                     $(this).css("background-color", color);
