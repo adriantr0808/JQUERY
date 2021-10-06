@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creacion de Elementos dinamicamente</title>
+    <script src="jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            //Si clicamos sobre el h1 cambiara su contenido por el texto que ponemos nosotros
+
+            $('h1').click(function () {
+                $(this).text("Evento activado!!!");
+                
+                /* Comprobando momentos diferentes
+                var texto = $('#cajatexto').val();
+                alert(texto);*/
+            });
+
+            //Al pulsar el boton cogemos el texto que haya en la caja y creamos un h1 dinamicamente, le damos el color azul y lo agregamos al padre
+            $('#botoncrear').click(function () {
+                var texto = $('#cajatexto').val();
+                /* Primera sintaxis
+                var h1 = $('<h1>');
+                h1.text(texto);
+                $('#padre').append(h1);
+                */
+                var h1 = $('<h1>', {
+                    'text': texto,
+                    'style': 'color:blue'
+                });
+
+                h1.appendTo($('#padre'));
+                /*Al pulsar, queremos poner el valor actual
+                de la caja del texto*/
+                $('h1').click(function () {
+                    var texto = $('#cajatexto').val();
+                    alert(texto);
+                });
+            });
+
+
+
+        });
+    </script>
+</head>
+
+<body>
+    <h1>Generar controles dinámicamente</h1>
+    <label>Introduzca un texto:</label>
+    <input type="text" id="cajatexto">
+    <button id="botoncrear">
+        Crear título
+    </button>
+    <div id="padre"></div>
+
+</body>
+
+</html>
