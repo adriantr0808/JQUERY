@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        img {
+            width: 150px;
+            height: 150px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Práctica imágenes data-key</h1>
+    <label>Seleccione número de controles</label>
+    <input type="range" id="rangocontroles" min="1" max="7" value="1" />
+    <div id="contenedorbotones"></div>
+    <div id="contenedorimagenes"></div>
+    <script src="jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#rangocontroles").change(function () { //Cuando cambie el rango del input se ejecutara la función
+                $("#contenedorbotones").empty(); // Con empty dejamos la caja vacía tanto de texto como de hijos que tenga
+                $("#contenedorimagenes").empty(); // Con empty dejamos la caja vacía tanto de texto como de hijos que tenga
+                var numcontroles = parseInt($(this).val()); //Nos guardamos en la variable numcontroles el valor que tiene el input
+                // console.log(numcontroles);
+                for (var i = 1; i <= numcontroles; i++) { //Con un for crearemos tantos botones e imagenes como valor tenga el input
+                    var boton = $("<button>", {
+                        "text": "boton " + i,
+                        "data-posicion": i //Agregamos el atributo data-posicion
+                    });
+
+                    boton.click(function () {
+                        var posicion = $(this).data("posicion"); //Nos guardamos el valor del atributo data-posicion
+                        var imagen = $("#contenedorimagenes").children().eq(posicion - 1); //Seleccionamos de la caja que contiene las imagenes, la imagen(hijo) que este en la misma posición que el boton que hayamos pulsado
+                        imagen.attr("src", "img/1.jpg"); // A la imagen seleccionada le damos el atributo src con la imagen distinta a la original
+                        $("#imagen" + posicion).attr("src", "img/1.jpg");
+                    });
+
+                    $("#contenedorbotones").append(boton); //En la caja que hemos creado para añadir los botones, cargamos los botones
+                    var imagen = $("<img>", { //Las imagenes seran la 2.jpg y tendran un atributo id
+                        "src": "img/2.jpg",
+                        "id": "imagen" + i
+                    });
+                    $("#contenedorimagenes").append(imagen); //Agregamos las imagenes a la caja
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -15,16 +15,15 @@
         $(document).ready(function(){
             $('#botonleer').click(function(){
                 console.log('Antes servicio');
-                $.get("documents/xml/empleados.xml",function(data){
+                $.get("documents/xml/empleados.xml",function(data){ //Cargamos el xml
                     console.log('Leyendo...');
                     var html = '';
-                    //Find devuelve un array
-                    $(data).find("APELLIDO").each(function(){
+                    $(data).find("APELLIDO").each(function(){  //Find devuelve un array, lo recorremos con each
                         //RECUPERAMOS EL CONTENIDO DEL TAG
-                        var apellido = $(this).text();
-                        html += "<li>"+apellido+"</li>";
+                        var apellido = $(this).text(); //Nos guardamos de cada etiqueta APELLIDO el contenido y lo guardamos en la variable apellido
+                        html += "<li>"+apellido+"</li>"; //Creamos una lista dinamicamente en la variable html
                     });
-                    $('#lista').html(html);
+                    $('#lista').html(html); //Cargamos en la etiqueta ul, toda la lista generada anteriormente, que estaba guardada en la variable html
                 });
                 console.log('Despues servicio');
             });

@@ -37,7 +37,7 @@
                 var inputRango = $('#rango'); //Me guardo el input
                 var valor = parseInt(inputRango.val()); //Me guardo el valor del input
                 //console.log(valor)
-                for (var i = 1; i <= valor; i++) { //En función del valor que tenga el input me generará imagens y botones
+                for (var i = 1; i <= valor; i++) { //En función del valor que tenga el input me generará imagenes y botones
 
                     var boton = $('<button>', {
                         "type": "button",
@@ -62,13 +62,12 @@
                     });
 
                     boton.click(function () {
-                        var id = $(this).attr('id');
+                        var id = $(this).attr('id'); //Seleccionamos el id del boton, dado previamente en la linea 45
                         //console.log(id);
 
                         $('img').each(function () {
-                            if (id == $(this).attr(
-                                'id')) { //No poner img, si no te cojera el ultimo elemento al que hace referencia
-                                $(this).attr('src', 'img/2.jpg');
+                            if (id == $(this).attr('id')) { //Comparamos le id del boton con el id de la imagen  //No poner img, si no te cojera el ultimo elemento al que hace referencia
+                                $(this).attr('src', 'img/2.jpg'); //Si coincide cambiamos el src de la imagen de modo que se cambie al pulsar el boton
                             }
                         });
                     });
