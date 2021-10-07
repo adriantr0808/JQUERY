@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Práctica de elementos dinamicos</title>
+    <style>
+        img {
+            width: 80px;
+            height: 80px;
+        }
+
+        div,
+        button,
+        img {
+            margin: 12px;
+        }
+    </style>
+</head>
+
+<body>
+    <input type="range" min="1" max="10" value="1" id="rango">
+    <div id="botones"></div>
+    <div id="imagenes"></div>
+    <script src="jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            //Cuando el valor del input cambie se ejecuta la función crear
+            $('#rango').change(crear);
+
+            function crear() {
+                var botones = $('#botones'); //Me guardo la caja de los botones
+                var imagenes = $('#imagenes'); //Me guarda la caja de la imagenes
+                var inputRango = $('#rango'); //Me guardo el input
+                var valor = parseInt(inputRango.val()); //Me guardo el valor del input
+                //console.log(valor)
+                for (var i = 1; i <= valor; i++) { //En función del valor que tenga el input me generará imagens y botones
+
+                    var boton = $('<button>', {
+                        "type": "button",
+                        "text": "Imagen " + i,
+                        "id": i
+                    });
+
+                    var img = $('<img>', {
+                        'src': "img/1.jpg",
+                        'id': i
+                    })
+
+                    boton.click(function () {
+                        var id = $(this).attr('id');
+                        //console.log(id);
+
+                        $('img').each(function () {
+                            if (id == img.attr('id')) {
+                                img.attr('src', 'img/2.jpg');
+                            }
+                        });
+                    });
+
+                    boton.click(function () {
+                        var id = $(this).attr('id');
+                        //console.log(id);
+
+                        $('img').each(function () {
+                            if (id == $(this).attr(
+                                'id')) { //No poner img, si no te cojera el ultimo elemento al que hace referencia
+                                $(this).attr('src', 'img/2.jpg');
+                            }
+                        });
+                    });
+                    botones.append(boton);
+                    imagenes.append(img);
+
+
+                }
+
+
+            }
+
+
+        });
+    </script>
+</body>
+
+</html>

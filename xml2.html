@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leer por atributos xml</title>
+</head>
+
+<body>
+    <h1>Leer atributos XML</h1>
+    <button type="button" id="botonLeer">Leer</button>
+    <table border="1" id="tabla">
+        <thead>
+            <tr>
+                <th>NOMBRE</th>
+                <th>DIRECCIÓN</th>
+                <th>TELEFONO</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+        <script src="jquery-3.6.0.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                $('#botonLeer').click(function(){//Cuando hacemos click en el boton se carga el xml
+                    $.get("documents/xml/hospital_atributos.xml",function(data){
+                        var html = ""; //Creamos una varaible para guardarnos el código que vamos a generar de la tabla
+                        $(data).find("HOSPITAL").each(function(){ //Buscamos la etiqueta HOSPTAL
+                            //PARA RECUPERAR EL VALOR DE UN ATRIBUTO .attr("nombre")
+                            var nombre=$(this).attr("NOMBRE"); //Me guardo el atributo nombre
+                            var direccion=$(this).attr("DIRECCION"); //Me guardo el atributo direccion
+                            var telefono=$(this).attr("TELEFONO"); //Me guardo el atributo telefono
+                            //Creamos la tabla dinamicamente
+                            html +="<tr>";
+                            html += "<td>"+nombre+"</td>";
+                            html += "<td>"+direccion+"</td>";
+                            html += "<td>"+telefono+"</td>";
+                            html +="</tr>";
+                        });
+
+                        $('#tabla tbody').html(html); //Como queremos escribir en el tbody, usamos el selector como si fuera css y ponemos .html porque tenemos etiquetas html y cargarmos dentro la variable donde tenemos guardada la tabla
+                    });
+                });
+            });
+        </script>
+    </table>
+</body>
+
+</html>
