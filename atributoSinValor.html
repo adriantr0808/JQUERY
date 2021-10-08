@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atributos sin valor</title>
+    <style>
+        input {
+            margin: 1em;
+        }
+
+        button {
+            margin: 1em;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Práctica EACH y CHECKED</h1>
+    <button type="button" id="botongenerar">Generar números</button>
+    <button type="button" id="botonsumar">Sumar chequeados</button>
+    <h2 id="resultado"></h2>
+    <hr />
+    <input type="checkbox">
+    <input type="checkbox">
+    <input type="checkbox">
+    <input type="checkbox">
+    <input type="checkbox">
+    <input type="checkbox">
+    <input type="checkbox">
+    <input type="checkbox">
+    <script src="jquery-3.6.0.min.js"></script>
+    <script>
+        /* ASIGNAR A LAS CASILLAS NUMEROS DEL 1 AL 100 DE 
+        FORMA ALEATORIA Y LUEGO MARCAR CIERTAS CASILLAS Y 
+        SUMAR LOS NUMEROS QUE HAY EN ESAS CASILLAS AUNQUE 
+        NO VEMOS LOS NUMEROS */
+
+        //Si en vez de poner checkboz ponemos text, veriamos los números
+        $(document).ready(function () {
+            $('#botongenerar').click(function () {
+                $('input[type=checkbox]').each(function () {
+                    var aleatorio = parseInt((Math.random() * 100) + 1);
+                    $(this).val(aleatorio);
+                    //$(this).text(aleatorio); En caso de que quisieramos ver los numeros
+                });
+            }); 
+            $('#botonsumar').click(function () {
+                var suma = 0;
+                $('input[type=checkbox]').each(function () {
+                    if ($(this).is(':checked')) {
+                        var numero = parseInt($(this).val());
+                        suma += numero;
+                        $('#resultado').text(suma);
+                    }
+
+                });
+            });
+
+        });
+    </script>
+</body>
+
+</html>

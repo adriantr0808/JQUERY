@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BUSQUEDAS XML</title>
+</head>
+<body>
+    <h1>BUSQUEDAS XML</h1>
+    <hr>
+    <label>Apellido: </label>
+    <input type="text" id="cajaApellido">
+    <button type="button" id="botonApellido">Buscar Apellidos</button>
+    <hr>
+    <label>Codigo postal</label>
+    <input type="text" id="cajaHospital"></input>
+    <button type="button" id="botonHospital">Buscar Hospital</button>
+    <hr>
+    <div id="contenido"></div>
+    <script src="jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('#botonHospital').click(function(){
+                var codigo = $('#cajaHospital').val();
+                $.get("documents/xml/hospital_atributos.xml", function(data){
+                    //HOSPITAL[HOSPITAL_COD=14]
+                    var filtro = "HOSPITAL[HOSPITAL_COD="+ codigo + "]";
+                    //CAPTURAMOS EL NODO DE HOSPITAL PARA POSTERIORMENTE RECUPERAR LOS DATOS NECESARIOS
+                    var nodohospital = $(data).find(filtro).first(); //First devuelve el primer elemento
+                    var nombre = nodohospital.attr("NOMBRE");
+                    $('#contenido').html("<h1>Resultado: " +nombre +"</h1>");
+                });
+            });
+        });
+    </script>
+</body>
+</html>
