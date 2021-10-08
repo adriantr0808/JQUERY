@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Práctica detalles departamentos</title>
+    <style>
+        button {
+            margin: 1em;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Práctica detalles departamentos</h1>
+    <div id="cajaBotones"></div>
+    <div id="detalles"></div>
+    <script src="jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $.get("documents/xml/departamentosetiquetas.xml", function (data) { //Cargo el xml
+                $(data).find('DEPARTAMENTO').each(function () { //Recorro las etiquetas departamento
+                    var num = $(this).find('NUMERO').text(); //Me guardo el numero de cada departamento
+                    var boton = $('<button>', { //Creo un boton dinamicamente y le asigno un id que coincide con el numero de departamento
+                        'text': 'DETALLES ' + num, 
+                        'id': num
+                    });
+
+                    boton.click(function () {
+                        var nombre = ""; //Variable para almacenar el nombre
+                        var localidad = ""; //Variable para almacenar la localidad
+                        $('#detalles').text(""); //Dejo vacia la caja de detalles para que se limpie
+                        var id = $(this).attr('id'); // Me guardo el id del boton
+                        $(data).find('DEPARTAMENTO').each(function () { //Recorro los departamentos de nuevo
+                            if (id == $(this).find('NUMERO').text()) { // Comparo si el id del boton es igual al numero de departamento
+                                //Si el id es igual me guardo el nombre y la localidad para mostrarlo como detalles
+                                nombre = $(this).find('NOMBRE').text(); 
+                                localidad = $(this).find('LOCALIDAD').text();
+
+                            }
+
+                        });
+                        $('#detalles').append(nombre + " - " + localidad); //A la caja de detalles le agrego el nombre y la localidad
+                    });
+                    $('#cajaBotones').append(boton); //Agrego un boton por cada departamento que tenemos
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
