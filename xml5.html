@@ -19,6 +19,8 @@
     <div id="detalles"></div>
     <script src="jquery-3.6.0.min.js"></script>
     <script>
+        /*CÓDIGO ANTIGUO
+
         $(document).ready(function () {
             $.get("documents/xml/departamentosetiquetas.xml", function (data) { //Cargo el xml
                 $(data).find('DEPARTAMENTO').each(function () { //Recorro las etiquetas departamento
@@ -46,6 +48,43 @@
                     });
                     $('#cajaBotones').append(boton); //Agrego un boton por cada departamento que tenemos
                 });
+            });
+        });*/
+        $(document).ready(function(){
+            $.get("documents/xml/departamentosetiquetas.xml",function(data){ //Cargo el xml
+                $(data).find('NUMERO').each(function(){ // Recorro todas las etiquetas NUMERO
+                  var num = $(this).text(); //Me guardo en la variable el numero de la etiqueta num en la que estoy 
+                 var boton = $('<button>',{ //Creo un boton dinamicamente, con ciertos atributos, en data-number y en value me guardo el numero  
+                    'type':'button',
+                    'text': 'Detalles '+num,
+                    'data-number': num,
+                    'value':num
+
+                 });
+                 $('#cajaBotones').append(boton); //Agrego los botones al div
+
+                 boton.click(function(){ //A los botones les doy el evento click
+
+                    var dataNumber = $(this).attr('data-number'); //Me guardo el la valor que contiene el atributo data-number
+                    
+                    $.get("documents/xml/departamentosetiquetas.xml",function(data){ //Cargo de nuevo el xml
+                        $(data).find('DEPARTAMENTO').each(function(){ //Recorro las etiquetas DEPARTAMENTO
+                            var numero = $(this).find('NUMERO').text(); //Me voy guardando en la variable numero el valor que contiene la etiqueta NUMERO de cada departamento por el que paso
+                         
+                            if(dataNumber == numero){ //Si las variables son iguales
+                               // console.log('hola');
+                                var localidad = $(this).find('LOCALIDAD').text(); //Me guardo la localidad del departamento en el que este
+                                var nombre = $(this).find('NOMBRE').text(); //Me guardo el nombre del departamento en el que este
+                                $('#detalles').html(nombre +" - "+ localidad); //En el div detalles pongo la información
+                            }
+                           
+                        });
+                      
+                    });
+                 });
+                 
+                });
+               
             });
         });
     </script>
