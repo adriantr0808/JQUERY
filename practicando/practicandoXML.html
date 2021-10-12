@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabla XML</title>
+    <style>
+        button{
+            margin: 1em;
+        }
+    </style>
+</head>
+<body>
+    <h1>Practicando carga y manejo de XML</h1>
+    <table border='1'>
+        <thead>
+           
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+    <button type="button" id="boton">Cargar tabla</button>
+    <script src="../jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function(){
+
+            $('#boton').click(function(){
+                var html='';
+                var head='';
+                head +='<tr>';s
+                    head +='<th>NUMERO</th>';
+                    head +='<th>NOMBRE</th>';
+                    head +='<th>LOCALIDAD</th>';
+                    head +='</tr>';   
+                $.get('../documents/xml/departamentosetiquetas.xml',function(data){
+               $(data).find('DEPARTAMENTO').each(function(){
+                   
+                    html += '<tr>';
+                    html += '<td>'+$(this).find('NUMERO').text()+'</td>';
+                    html += '<td>'+$(this).find('NOMBRE').text()+'</td>';
+                    html += '<td>'+$(this).find('LOCALIDAD').text()+'</td>';
+                    html += '</tr>';
+                    $('table thead').html(head);
+                    $('table tbody').html(html);
+                });
+               
+            });
+            });
+           
+            
+        });
+    </script>
+</body>
+</html>

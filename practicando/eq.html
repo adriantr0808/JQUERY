@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practicando con eq</title>
+</head>
+
+<body>
+    <h1>Practicando con eq</h1>
+    <div id="contenedorDiv">
+        <div></div>
+        <div>Hola, soy el texto que esta en la posición 1</div>
+        <div></div>
+    </div>
+    <button type="button" id="boton">Pulsa para ver el contenido</button>
+
+    <script src="../jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            $('#boton').click(function () {
+                var caja = $('#contenedorDiv').children().eq(1);
+                console.log(caja.text());
+            });
+
+        });
+    </script>
+</body>
+
+</html>
