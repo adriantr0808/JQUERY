@@ -36,9 +36,10 @@
 
                     boton.click(function () {
                         var posicion = $(this).data("posicion"); //Nos guardamos el valor del atributo data-posicion
+                        console.log(posicion);
                         var imagen = $("#contenedorimagenes").children().eq(posicion - 1); //Seleccionamos de la caja que contiene las imagenes, la imagen(hijo) que este en la misma posición que el boton que hayamos pulsado
                         imagen.attr("src", "img/1.jpg"); // A la imagen seleccionada le damos el atributo src con la imagen distinta a la original
-                        $("#imagen" + posicion).attr("src", "img/1.jpg");
+                        //$("#imagen" + posicion).attr("src", "img/1.jpg"); Otra forma de hacerlo
                     });
 
                     $("#contenedorbotones").append(boton); //En la caja que hemos creado para añadir los botones, cargamos los botones
