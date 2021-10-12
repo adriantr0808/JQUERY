@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practicando XML Ej-4</title>
+    <style>
+        
+    </style>
+</head>
+<body>
+    
+    <fieldset>
+        <legend>Apellidos</legend>
+     <label>Apellidos:</label>
+     <input type="text" id="apellido">
+     <button type="button" id="botonApellido">Buscar apellido</button>
+    </fieldset>
+    <fieldset>
+        <legend>Código hospital</legend>
+     <label>Código hospital:</label>
+     <input type="text" id="codigo">
+     <button type="button" id="botonCodigo">Buscar hospital</button>
+    </fieldset>
+    <div id="contenido"></div>
+    <script src="../jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('#botonApellido').click(function(){
+               var apellido = $('#apellido').val();
+               $.get('../documents/xml/empleados.xml',function(data){
+                  var filtro = 'APELLIDO:contains('+ apellido +')';
+                var html = "";
+                  $(data).find(filtro).each(function(){
+                    var ape = $(this).text();
+                    html += "<h1>"+ape+"</h1>";
+                    
+                 });
+                 $('#contenido').html(html);
+               });
+            });
+
+            $('#botonCodigo').click(function(){
+               
+                var codigo = $('#codigo').val();
+                var html = "";
+                $.get('../documents/xml/hospital_atributos.xml',function(data){
+                    var filtro = 'HOSPITAL[HOSPITAL_COD='+codigo+']';
+                   
+                   var nodohospital= $(data).find(filtro);
+                   console.log(nodohospital);
+                    var nombre = nodohospital.attr('NOMBRE');
+                    
+                    html += "<h1> Nombre :"+nombre+"</h1>";
+                    $('#contenido').html(html);
+                });
+               
+            });
+        });
+    </script>
+</body>
+</html>

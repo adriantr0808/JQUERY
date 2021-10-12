@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Práctica posición de elementos dinámicos</title>
+    <style>
+        img{
+            width: 90px;
+            height: 90px;
+        }
+        img,button{
+            margin:1em;
+        }
+    </style>
+</head>
+<body>
+    <input type="range" min='1' max='10' value='1' id="valor">
+    <div id="cajaBotones"></div>
+    <div id="cajaImagenes"></div>
+    <script src="../jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function(){
+             $('#valor').change(function(){
+                var inputValor = $('#valor').val();
+
+                $('#cajaBotones').html("");
+                for(i=1;i < inputValor;i++){
+                    var boton = $('<button>',{
+                        'type':'button',
+                        'text': 'Imagen '+i,
+                        'data-number': i
+                    });
+
+                    var img = $('<img>',{
+                        'src': '../img/1.jpg',
+                        'data-number': i
+                    })
+
+                    boton.click(function(){
+                        var num = $(this).data('number');
+                        
+                        $('img').each(function(){
+                            if(num == $(this).data('number')){
+                            $(this).attr('src','../img/2.jpg');
+                        }
+                        });
+                       
+                    });
+
+                    $('#cajaBotones').append(boton);
+                    $('#cajaImagenes').append(img);
+                }
+            });
+            
+        });
+    </script>
+</body>
+</html>
