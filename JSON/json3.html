@@ -12,20 +12,19 @@
         
     </select>
    <div id="contenido"></div>
-    <script src="jquery-3.6.0.min.js"></script>
+    <script src="../jquery-3.6.0.min.js"></script>
     <script>
-        $(document).ready(function(){
+        $(document).ready(function(){ //Cargo el json de los jugadores
             $.ajax({
                 'url': 'documents/json/jugadores.json',
                 'method': 'GET',
                 'dataType': 'json',
-                success: function(data){
-                  $.each(data.jugadores, function(index, jugador){
-                      console.log('bucle');
-                    var option= $('<option>',{
+                success: function(data){ //Si la conexión tiene éxito
+                  $.each(data.jugadores, function(index, jugador){ //Accedo al objeto jugadores mediante data.jugadores, despues establezco un indice index y la variable jugador para obtener los datos del objeto
+                    var option= $('<option>',{ //Creo dinamicamente los option del select con el nombre de los jugadores
                         'text': jugador.nombre
                     });
-                    $('select').append(option);
+                    $('select').append(option); //Agrego al select los option que he creado antes
                   });
                     
                 }
@@ -33,19 +32,20 @@
             });
 
             $('#selectJugadores').change(function(){
-                $('#contenido').empty();
+                $('#contenido').empty(); //Vacio la caja contenido para que no se superpongan los jugadores
+               
                 var selectPlayer="";
-                 selectPlayer = $(this).children("option:selected").val();
+                 selectPlayer = $(this).children("option:selected").val(); //Me guardo el valor que sea seleccionado en el select
                 
-                $.ajax({
-                'url': 'documents/json/jugadores.json',
+                $.ajax({ //Cargamos de nuevo el json
+                'url': '../documents/json/jugadores.json',
                 'method': 'GET',
                 'dataType': 'json',
-                success: function(data){
+                success: function(data){ 
                    
-                  $.each(data.jugadores, function(index, jugador){
+                  $.each(data.jugadores, function(index, jugador){ //Recorremos de nuevo los jugadores
                     
-                    if(selectPlayer==jugador.nombre){
+                    if(selectPlayer==jugador.nombre){ //Si la opción que hay en el select es igual al nombre del jugador, sacamos los datos
                         var info = "";
                         info += '<p><b>Posición</b>: '+jugador.posicion+'</p>';
                         info += '<p><b>Edad</b>: '+jugador.edad+'</p>';
@@ -59,9 +59,9 @@
                        
                     }
                    
-                    $('#contenido').append(info);
-                    $('#contenido').append(img);
-                  
+                    $('#contenido').append(info); //Agregamos a la caja #contenido la información
+                    $('#contenido').append(img); //Agregamos a la caja #contenido la imagen
+                   
                     
                   });
                     

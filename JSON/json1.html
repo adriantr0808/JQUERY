@@ -17,7 +17,7 @@
     <button type="button" id="botonAjax">Leer con Ajax</button>
     <hr/>
     <div id="contenido"></div>
-    <script src="jquery-3.6.0.min.js"></script>
+    <script src="../jquery-3.6.0.min.js"></script>
     <script>
         $('#botonGet').click(function(){
             $.getJSON('documents/json/tareas.json',function(data){ //Cargamos el json
@@ -33,7 +33,7 @@
 
         $('#botonAjax').click(function(){
             $.ajax({
-                'url': 'documents/json/tareas.json',
+                'url': '../documents/json/tareas.json',
                 'method': 'GET',
                 'dataType': 'json',
                 success: function(data){ //Si la conexión tiene éxito se ejecutará la función
