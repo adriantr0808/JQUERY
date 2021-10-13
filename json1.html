@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lectura de un documento JSON</title>
+    <style>
+        button{
+            margin: 1em;
+        }
+    </style>
+</head>
+<body>
+    <h1>LECTURA JSON</h1>
+    <button type="button" id="botonGet">Leer con getJSON</button>
+    <button type="button" id="botonAjax">Leer con Ajax</button>
+    <hr/>
+    <div id="contenido"></div>
+    <script src="jquery-3.6.0.min.js"></script>
+    <script>
+        $('#botonGet').click(function(){
+            $.getJSON('documents/json/tareas.json',function(data){ //Cargamos el json
+                $.each(data, function(key,value){ //Recorremos el json
+                    var h1 = $('<h1>',{
+                        'text': 'Clave: '+key+', Valor: '+ value
+                    });
+                    h1.appendTo($('#contenido')); //Este append es del hijo al padre
+                    //$('#contenido').append(h1);
+                });
+            });
+        });
+
+        $('#botonAjax').click(function(){
+            $.ajax({
+                'url': 'documents/json/tareas.json',
+                'method': 'GET',
+                'dataType': 'json',
+                success: function(data){ //Si la conexión tiene éxito se ejecutará la función
+                    $.each(data, function(key,value){
+                        var h1 = $('<h1>',{
+                            'style':'color:red',
+                            'text':'Clave: '+ key + ', Valor: '+value
+                        });
+                        $('#contenido').append(h1);
+                    });
+                },
+                'error': function(){ //Función de error por si fallara la ejecución
+                    $('#contenido').text('Error del servicio');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

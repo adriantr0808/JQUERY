@@ -100,7 +100,7 @@
                  
                 var selectBrand="";
                  selectBrand = $(this).children("option:selected").val();
-             
+              console.log(selectBrand);
                 $.get('documents/xml/coches.xml',function(data){
                     $(data).find('coche').each(function(){
                         if(selectBrand==$(this).find('marca').text()){

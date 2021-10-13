@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON con Ajax</title>
+</head>
+<body>
+    <h1>Cargado JSON con Ajax</h1>
+    <select id="selectJugadores">
+        
+    </select>
+   <div id="contenido"></div>
+    <script src="jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $.ajax({
+                'url': 'documents/json/jugadores.json',
+                'method': 'GET',
+                'dataType': 'json',
+                success: function(data){
+                  $.each(data.jugadores, function(index, jugador){
+                      console.log('bucle');
+                    var option= $('<option>',{
+                        'text': jugador.nombre
+                    });
+                    $('select').append(option);
+                  });
+                    
+                }
+                
+            });
+
+            $('#selectJugadores').change(function(){
+                $('#contenido').empty();
+                var selectPlayer="";
+                 selectPlayer = $(this).children("option:selected").val();
+                
+                $.ajax({
+                'url': 'documents/json/jugadores.json',
+                'method': 'GET',
+                'dataType': 'json',
+                success: function(data){
+                   
+                  $.each(data.jugadores, function(index, jugador){
+                    
+                    if(selectPlayer==jugador.nombre){
+                        var info = "";
+                        info += '<p><b>Posición</b>: '+jugador.posicion+'</p>';
+                        info += '<p><b>Edad</b>: '+jugador.edad+'</p>';
+                        info += '<p><b>Número</b>: '+jugador.numero+'</p>';
+                        
+                        var img= $('<img>',{
+                            'src': jugador.imagen,
+                            'style': 'width: 400px; height: 200px'
+                        });
+                       
+                       
+                    }
+                   
+                    $('#contenido').append(info);
+                    $('#contenido').append(img);
+                  
+                    
+                  });
+                    
+                }
+                
+            });
+
+            });
+        });
+    </script>
+</body>
+</html>
