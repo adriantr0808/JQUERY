@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consumo Api Empleados Cliente</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="card  mt-5 me-5 ms-5">
+        <h5 class="card-header">Consumo Api Empleados Cliente</h5>
+        <div class="card-body">
+            <label class='form-label'>Introduza un salario:</label>
+            <input type="text" id="sal" class="form-control">
+            <button type="button" id="buscarSalario" class="btn btn-success mt-2">Buscar Salario</button>
+        </div>
+        <table border='1' id="tablaEmpleados" class="table table-striped m-auto">
+            <thead>
+                <tr>
+                    <th>Apellido</th>
+                    <th>Oficio</th>
+                    <th>Salario</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+    <script src="jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+
+                    $('#buscarSalario').click(function () {
+                                var sal = parseInt($('#sal').val());
+                                var urlapi = 'https://apiempleadosspgs.azurewebsites.net';
+                                var request = '/api/empleados/empleadossalario/' + sal;
+                                $.ajax({
+                                    
+                                        'url': urlapi + request,
+                                        'type': 'GET',
+                                        
+                                        success: function (data) {
+                                            var html = "";
+                                            $.each(data, function (index, emp) {
+
+
+                                                var tr = $('<tr>');
+                                                var ape = $('<td>');
+                                                ape.append('<a>',{
+                                                    'text':emp.apellido
+                                                })
+                                                var ofi = $('<td>', {
+                                                    'text': emp.oficio
+                                                });
+                                                var salario = $('<td>', {
+                                                    'text': emp.salario
+                                                });
+
+
+                                                tr.append(ape);
+                                                tr.append(ofi);
+                                                tr.append(salario);
+                                                $('#tablaEmpleados tbody').append(tr);
+
+                                            });
+                                        }
+                                    });    
+                                });
+                            });
+    </script>
+    <script src="js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
+    </script>
+</body>
+
+</html>
