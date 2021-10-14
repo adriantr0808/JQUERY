@@ -6,8 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Consumo Api Empleados Cliente</title>
-    <link href="css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -30,16 +29,17 @@
 
             </tbody>
         </table>
+        <div id="info" class="m-2">&nbsp;</div>
     </div>
     <script src="jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function () {
 
                     $('#buscarSalario').click(function () {
-                                var sal = parseInt($('#sal').val());
+                                var sal = parseInt($('#sal').val()); //Cogemos el salario que hay en el input y lo pasamos a número
                                 var urlapi = 'https://apiempleadosspgs.azurewebsites.net';
-                                var request = '/api/empleados/empleadossalario/' + sal;
-                                $.ajax({
+                                var request = '/api/empleados/empleadossalario/' + sal; //En el request pasamos el salario porque el que queremos que aparezcan los empleados (va a sacar por encima de ese valor)
+                                $.ajax({ //Configuramos el ajax
                                     
                                         'url': urlapi + request,
                                         'type': 'GET',
@@ -48,12 +48,15 @@
                                             var html = "";
                                             $.each(data, function (index, emp) {
 
-
+                                                //Creamos dinamicamente los tr y td
                                                 var tr = $('<tr>');
                                                 var ape = $('<td>');
-                                                ape.append('<a>',{
-                                                    'text':emp.apellido
-                                                })
+                                                var a =$('<a>',{ //Creamos el enlace
+                                                    'data-id': emp.idEmpleado,
+                                                    'href':'#info',
+                                                    'text': emp.apellido
+                                                });
+                                                ape.append(a); //Agregamos al td el enlace
                                                 var ofi = $('<td>', {
                                                     'text': emp.oficio
                                                 });
@@ -62,10 +65,20 @@
                                                 });
 
 
-                                                tr.append(ape);
-                                                tr.append(ofi);
-                                                tr.append(salario);
-                                                $('#tablaEmpleados tbody').append(tr);
+                                                tr.append(ape); //Agregamos al tr el apellido
+                                                tr.append(ofi); //Agregamos al tr el oficio
+                                                tr.append(salario); //Agregamos al tr el salario
+                                                $('#tablaEmpleados tbody').append(tr); //En el tbody de la tabla agregamos el tr
+
+                                                
+                                                a.click(function(){ //Al enlace le damos el evento click
+                                                    var id = $(this).attr('data-id'); //Nos guardamos el valor del atributo data-id en la variable id
+                                                   $.each(data,function(i,e){ //Recorremos de nuevo los empleados
+                                                        if(id==e.idEmpleado){ //Al encontrar al empleado con el id del empleado que he puesto sacamos como información el id del empleado
+                                                          $('#info').append('El id del empleado '+e.apellido+' es: '+e.idEmpleado);
+                                                        }
+                                                   });
+                                                });
 
                                             });
                                         }
@@ -73,9 +86,7 @@
                                 });
                             });
     </script>
-    <script src="js/bootstrap.bundle.min.js"
-        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
-    </script>
+   <script src="js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

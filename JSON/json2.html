@@ -16,7 +16,7 @@
     <script>
         $(document).ready(function () {
             $('#botonclientes').click(function () {
-                $.getJSON('documents/json/clientessimples.json', function (data) {
+                $.getJSON('../documents/json/clientessimples.json', function (data) {
                     //En el each ahora tendremos el indice/posicion
                     //De cada objeto y el propio objeto con sus propiedades dinamicas
                     $.each(data.clientes, function (index, cliente) {

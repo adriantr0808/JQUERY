@@ -48,15 +48,16 @@
         });
 
         function cargarDepartamentos(){
-            var request = "/api/departamentos";
-            $.ajax({
+            var request = "/api/departamentos"; //Configuramos el request de la api a la que queremos acceder
+            $.ajax({ //Cargamos ajax
                 'url': urlapi + request,
                 'type': 'GET',
                 success: function (data) {
                     var html = "";
-                    $.each(data, function (index, dept) {
+                    $.each(data, function (index, dept) { //Recorremos los departamentos
                        
-
+                        //Creamos dinamicamente los tr, los td y los botones 
+                        //IMPORTANTE CREAR LOS BOTONES CON JQUERY CUANDO VAMOS A DAR EVENTOS PARA EVITAR PROBLEMAS DE ASINCRONÍA
                         var tr= $('<tr>');
                         var num= $('<td>',{'text':dept.numero});
                         var nom= $('<td>',{'text':dept.nombre});
@@ -76,21 +77,20 @@
                     });
                     
                    
-               
+                    //Al boton le damos un evento click
                     $('button').click(function(){
-                      var dep = $(this).val();
-
+                      var dep = $(this).val(); //Nos guardamos el valor del boton en la variable dep
+                        //Configuramos la api 
                       var urlapiemp = 'https://apiempleadosspgs.azurewebsites.net';
                       var request = `/api/Empleados/EmpleadosDepartamento/${dep}`;
-                      $.ajax({
+                      $.ajax({ //Configuramos el ajax
                         'url': urlapiemp+request,
                         'typr':'GET',
                         success: function(data){
                             var html="";
                             $.each(data, function(index,emp){
-                                
-                               
-                
+                                //Recorremos los empleados obteniendo los datos necesarios
+                                //EN ESTE CASO NO IMPORTA QUE NO SE CREEN CON JQUERY PORQUE NO DAMOS EVENTOS
                                 html+='<tr>';
                                 html += '<td>'+emp.apellido+'</td>';
                                 html += '<td>'+emp.oficio+'</td>';

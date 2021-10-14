@@ -15,8 +15,9 @@
     <script src="../jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function(){ //Cargo el json de los jugadores
+
             $.ajax({
-                'url': 'documents/json/jugadores.json',
+                'url': '../documents/json/jugadores.json',
                 'method': 'GET',
                 'dataType': 'json',
                 success: function(data){ //Si la conexión tiene éxito
@@ -32,6 +33,8 @@
             });
 
             $('#selectJugadores').change(function(){
+                var indice = $(this).prop("selectedIndex");
+                console.log(indice);
                 $('#contenido').empty(); //Vacio la caja contenido para que no se superpongan los jugadores
                
                 var selectPlayer="";
