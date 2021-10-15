@@ -72,6 +72,7 @@
 
                                                 
                                                 a.click(function(){ //Al enlace le damos el evento click
+                                                    $('#info').empty();
                                                     var id = $(this).attr('data-id'); //Nos guardamos el valor del atributo data-id en la variable id
                                                    $.each(data,function(i,e){ //Recorremos de nuevo los empleados
                                                         if(id==e.idEmpleado){ //Al encontrar al empleado con el id del empleado que he puesto sacamos como información el id del empleado
