@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practica empleados CRUD</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <h1 class="p-2  ms-2 mt-4 mb-2">Práctica empleados CRUD</h1>
+    <div class="container">
+        <div class="row">
+            <select id="selectOficios" class="mt-2  col-md-4 "></select>
+            <div class="col-md-8">
+                <button class="btn btn-warning mt-2" id="buscarEmpleados">Buscar empleados</button>
+            </div>
+        </div>
+        <div class="row">
+            <input type="text" id="incremento" placeholder="Incremento salarial" class="col-md-4 mt-5"> 
+            <div class="col-md-8">
+                <button class="btn btn-success mt-5">Incrementar salario empleados</button>
+            </div>
+        </div>
+        
+        <table border="1" class="table mt-4">
+            <thead>
+                <th>IdEmpleado</th>
+                <th>Apellido</th>
+                <th>Oficio</th>
+                <th>Salario</th>
+                <th>Director</th>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    
+    </div>
+    <script src="jquery-3.6.0.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var urlapi = "https://apiempleadosaction.azurewebsites.net";
+            var request = "/api/empleados/getOficios/oficios";
+            $.ajax({
+                'url': urlapi + request,
+                'type': 'GET', //SIEMPRE MAYUSCULAS
+                success: function (data) {
+                    console.log(data);
+                    var i = "";
+                    for (i = 0; i < data.length; i++) {
+                        var option = $('<option>', {
+                            'text': data[i]
+                        });
+                        $('#selectOficios').append(option);
+                    }
+                }
+            });
+
+            $('#buscarEmpleados').click(function(){
+                var oficio = $('selectOficios').change(function(){
+
+                });
+            });
+
+        });
+    </script>
+</body>
+
+</html>

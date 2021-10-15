@@ -35,59 +35,62 @@
     <script>
         $(document).ready(function () {
 
-                    $('#buscarSalario').click(function () {
-                                var sal = parseInt($('#sal').val()); //Cogemos el salario que hay en el input y lo pasamos a número
-                                var urlapi = 'https://apiempleadosspgs.azurewebsites.net';
-                                var request = '/api/empleados/empleadossalario/' + sal; //En el request pasamos el salario porque el que queremos que aparezcan los empleados (va a sacar por encima de ese valor)
-                                $.ajax({ //Configuramos el ajax
-                                    
-                                        'url': urlapi + request,
-                                        'type': 'GET',
-                                        
-                                        success: function (data) {
-                                            var html = "";
-                                            $.each(data, function (index, emp) {
+            $('#buscarSalario').click(function () {
+                var sal = parseInt($('#sal').val()); //Cogemos el salario que hay en el input y lo pasamos a número
+                var urlapi = 'https://apiempleadosspgs.azurewebsites.net';
+                var request = '/api/empleados/empleadossalario/' +  sal; //En el request pasamos el salario porque el que queremos que aparezcan los empleados (va a sacar por encima de ese valor)
+                $.ajax({ //Configuramos el ajax
 
-                                                //Creamos dinamicamente los tr y td
-                                                var tr = $('<tr>');
-                                                var ape = $('<td>');
-                                                var a =$('<a>',{ //Creamos el enlace
-                                                    'data-id': emp.idEmpleado,
-                                                    'href':'#info',
-                                                    'text': emp.apellido
-                                                });
-                                                ape.append(a); //Agregamos al td el enlace
-                                                var ofi = $('<td>', {
-                                                    'text': emp.oficio
-                                                });
-                                                var salario = $('<td>', {
-                                                    'text': emp.salario
-                                                });
+                    'url': urlapi + request,
+                    'type': 'GET',
 
+                    success: function (data) {
+                        $('#tablaEmpleados tbody').empty();
+                        var html = "";
+                        $.each(data, function (index, emp) {
 
-                                                tr.append(ape); //Agregamos al tr el apellido
-                                                tr.append(ofi); //Agregamos al tr el oficio
-                                                tr.append(salario); //Agregamos al tr el salario
-                                                $('#tablaEmpleados tbody').append(tr); //En el tbody de la tabla agregamos el tr
-
-                                                
-                                                a.click(function(){ //Al enlace le damos el evento click
-                                                    $('#info').empty();
-                                                    var id = $(this).attr('data-id'); //Nos guardamos el valor del atributo data-id en la variable id
-                                                   $.each(data,function(i,e){ //Recorremos de nuevo los empleados
-                                                        if(id==e.idEmpleado){ //Al encontrar al empleado con el id del empleado que he puesto sacamos como información el id del empleado
-                                                          $('#info').append('El id del empleado '+e.apellido+' es: '+e.idEmpleado);
-                                                        }
-                                                   });
-                                                });
-
-                                            });
-                                        }
-                                    });    
-                                });
+                            //Creamos dinamicamente los tr y td
+                            var tr = $('<tr>');
+                            var ape = $('<td>');
+                            var a = $('<a>', { //Creamos el enlace
+                                'data-id': emp.idEmpleado,
+                                'href': '#info',
+                                'text': emp.apellido
                             });
+                            ape.append(a); //Agregamos al td el enlace
+                            var ofi = $('<td>', {
+                                'text': emp.oficio
+                            });
+                            var salario = $('<td>', {
+                                'text': emp.salario
+                            });
+                            tr.append(ape); //Agregamos al tr el apellido
+                            tr.append(ofi); //Agregamos al tr el oficio
+                            tr.append(salario); //Agregamos al tr el salario
+                            $('#tablaEmpleados tbody').append(
+                            tr); //En el tbody de la tabla agregamos el tr
+                            a.click(function () { //Al enlace le damos el evento click
+                                $('#info').empty();
+                                var id = $(this).attr('data-id'); //Nos guardamos el valor del atributo data-id en la variable id
+                                var request ="/api/empleados/"+id; //En el request usamos el id para encontrar el empleado específico que queremos
+                                $.ajax({ //IMPORTANTE CARGAR AJAX DE NUEVO!!
+                                    'url': urlapi + request,
+                                    'type': 'GET',
+                                    success: function(data){ 
+                                        //console.log(data); Mira como te devuelve solo un objeto
+                                        $('#info').append('El id del empleado ' +data.apellido +' es: ' + data.idEmpleado); //Solo necesitamos data para coger los valores que queremos puesto que solo nos devuelve un objeto
+                                    }
+                                });
+                              
+                            });
+
+                        });
+                    }
+                });
+            });
+        });
     </script>
-   <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
