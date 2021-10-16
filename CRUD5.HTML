@@ -104,7 +104,7 @@
 
             });
 
-            $('#botonModif').click(function(){
+            $('#botonModif').click(function () {
                 var id = parseInt($('#cajaid').val());
                 var nom = $('#cajanombre').val();
                 var dir = $('#cajadireccion').val();
@@ -140,15 +140,17 @@
 
         });
 
-        
+
 
         function cargarHospitales() {
-            $('#tablahospitales tbody').empty();
-            var request = '/webresources/hospitales';
-            $.ajax({
+            $('#tablahospitales tbody')
+        .empty(); //Vaciamos la tabla para evitar que se concatene a si misma cada vez que se ejecute esta función
+            var request = '/webresources/hospitales'; //Request para cargar los hospitales
+            $.ajax({ //Configuramos ajax para obtener los hospitales
                 'url': urlapi + request,
                 'type': 'GET',
-                success: function (data) {
+                success: function (
+                data) { //Creamos dinamicamente una tabla con cada apartado, lo hago con js porque vamos a usar un par de botones para eliminar y modificar 
                     $.each(data, function (i, hospital) {
                         var tr = $('<tr>');
                         var tdid = $('<td>', {
@@ -166,64 +168,78 @@
                         var tdcamas = $('<td>', {
                             'text': hospital.camas
                         });
-                       
+
 
                         var botonEliminar = $('<button>', {
                             'text': 'Eliminar',
                             'type': 'button',
-                            'value': hospital.idhospital,
+                            'value': hospital
+                            .idhospital, //Al boton de eliminar le doy como valor el id del hospital
                             'class': 'btn btn-outline-danger mt-1 mb-1'
                         });
 
-                        botonEliminar.click(function () {
-                            var id = $(this).val();
-                            var request = '/webresources/hospitales/delete/' + id;
-                            $.ajax({
+                        botonEliminar.click(function () { //Agregamos al boton el evento click
+                            var id = $(this)
+                        .val(); //Nos guardamos el valor del boton, que es el id del hospital correspondiente
+                            var request = '/webresources/hospitales/delete/' +
+                            id; //Request de hospitales para eliminar por id
+                            $.ajax({ //Configuramos ajax 
                                 'url': urlapi + request,
                                 'type': 'DELETE',
                                 success: function () {
                                     console.log('Eliminado!!');
-                                    cargarHospitales();
+                                    cargarHospitales
+                                (); //Cargamos la tabla despues de eliminar para que se vean los datos
                                 }
                             });
 
                         });
 
-                        var tdelim = $('<td>').append(botonEliminar);
+                        var tdelim = $('<td>').append(
+                        botonEliminar); //Agregamos al td el boton de eliminar
 
-                        
-                        
-                        var botonModificar = $('<button>',{
+
+
+                        var botonModificar = $('<button>', {
                             'text': 'Editar',
                             'type': 'button',
                             'class': 'btn btn-outline-warning mt-1 mb-1 ',
-                            'value': hospital.idhospital
+                            'value': hospital
+                                .idhospital //Al boton de modificar tambien le soy el id
                         });
 
-                        botonModificar.click(function(){
+                        botonModificar.click(function () {
                             var id = $(this).val();
                             var request = '/webresources/hospitales';
                             $.ajax({
                                 'url': urlapi + request,
                                 'type': 'GET',
-                                success: function(data){
-                                    $.each(data, function(i, hos){
-                                        if(id==hos.idhospital){
-                                            $('#cajaid').val(hos.idhospital);
-                                            $('#cajanombre').val(hos.nombre);
-                                            $('#cajadireccion').val(hos.direccion);
-                                            $('#cajatelefono').val(hos.telefono);
-                                            $('#cajacamas').val(hos.camas);
+                                success: function (data) {
+                                    $.each(data, function (i, hos) {
+                                        if (id == hos
+                                            .idhospital) { //Cuando encuentre el id que coincide con el id del hospital
+                                            //Cargamos en los value de los input los datos del hospital coincidente
+                                            $('#cajaid').val(hos
+                                                .idhospital);
+                                            $('#cajanombre').val(hos
+                                                .nombre);
+                                            $('#cajadireccion').val(hos
+                                                .direccion);
+                                            $('#cajatelefono').val(hos
+                                                .telefono);
+                                            $('#cajacamas').val(hos
+                                                .camas);
                                         }
                                     });
                                 }
                             });
 
-                            
-                        });
-                       
-                        var tdmodif = $('<td>').append(botonModificar);
 
+                        });
+
+                        var tdmodif = $('<td>').append(botonModificar); //Agregamos el boton al td
+
+                        //Agregamos a los tr los tds necesarios
                         tr.append(tdid);
                         tr.append(tdnom);
                         tr.append(tddir);
@@ -231,8 +247,8 @@
                         tr.append(tdcamas);
                         tr.append(tdelim);
                         tr.append(tdmodif);
-                       
-                     
+
+
 
                         $('#tablahospitales tbody').append(tr);
 

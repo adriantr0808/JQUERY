@@ -19,13 +19,14 @@
             </div>
         </div>
         <div class="row">
-            <input type="text" id="incremento" placeholder="Incremento salarial" class="col-md-4 mt-5"> 
+            <input type="text" id="incremento" placeholder="Incremento salarial" class="col-md-4 mt-5">
             <div class="col-md-8">
-                <button class="btn btn-success mt-5">Incrementar salario empleados</button>
+                <button type="button" class="btn btn-success mt-5" id="incrementoSal">Incrementar salario
+                    empleados</button>
             </div>
         </div>
-        
-        <table border="1" class="table mt-4">
+
+        <table border="1" class="table mt-4" id="tablaEmp">
             <thead>
                 <th>IdEmpleado</th>
                 <th>Apellido</th>
@@ -37,34 +38,85 @@
 
             </tbody>
         </table>
-    
+
     </div>
     <script src="jquery-3.6.0.min.js"></script>
     <script src="js/bootstrap.bundle.min.js"></script>
     <script>
         $(document).ready(function () {
-            var urlapi = "https://apiempleadosaction.azurewebsites.net";
-            var request = "/api/empleados/getOficios/oficios";
-            $.ajax({
+            var urlapi = "https://apiempleadosaction.azurewebsites.net"; //Api para los empleados
+            var request = "/api/empleados/getOficios/oficios"; //Request del get para los empleados
+            var oficio =
+            ""; //Variable oficio global para usarla tanto en la función de cargarEmpleados como en la de incrementar el salario
+            $.ajax({ //AJAX para el get de empleados
                 'url': urlapi + request,
                 'type': 'GET', //SIEMPRE MAYUSCULAS
                 success: function (data) {
-                    console.log(data);
+                    //console.log(data);
                     var i = "";
-                    for (i = 0; i < data.length; i++) {
+                    for (i = 0; i < data
+                        .length; i++) { //Recorremos los ofcios con un array normal, ¿porque? ejecuta la linea 53
                         var option = $('<option>', {
-                            'text': data[i]
+                            'text': data[i],
+                            'value': data[i]
                         });
-                        $('#selectOficios').append(option);
+                        $('#selectOficios').append(
+                        option); //Agregamos al select los option con cada uno de los oficios
                     }
                 }
             });
 
-            $('#buscarEmpleados').click(function(){
-                var oficio = $('selectOficios').change(function(){
+            $('#buscarEmpleados').click(
+        function () { //Al pulsar el boton ejecutaremos la función de cargarEmpleados
+                cargarEmpleados();
+
+            });
+
+            $('#incrementoSal').click(function () { //
+                var incre = $('#incremento').val(); //Nos guardamos el valor de la caja de incremento
+                var requestIncremento = "/api/Empleados/IncrementarSalarioOficios/" + oficio + "/" +
+                    incre; //Request para realizar la modificación del salario por oficio utilizamos las variables incre y oficio que es global
+
+                $.ajax({
+                    'url': urlapi + requestIncremento,
+                    'type': 'PUT',
+                    'contentType': 'application/json',
+                    success: function () {
+                        cargarEmpleados
+                    (); //Cargamos los empleados para que se recargue el salario una vez ya lo tengamos cambiado
+                    }
 
                 });
             });
+
+            function cargarEmpleados() {
+                $('#tablaEmp tbody')
+            .empty(); //Vaciamos la tabla para que al volver a cagar no se concatene otra vez la misma tabla
+                oficio = $('#selectOficios').children("option:selected")
+            .val(); //Nos guardamos el valor del option que esté seleccionado
+                var requestOficio = "/api/Empleados/GetEmpleadosOficio/empleadosoficio/" +
+                oficio; //Configuramos el request de de sacar los empleados por oficio
+
+                $.ajax({ //Configuramos ajax para que nos muestre los empleados por el oficio que hayamos marcado en el select
+                    'url': urlapi + requestOficio,
+                    'type': 'GET', //SIEMPRE MAYUSCULAS
+                    success: function (data) {
+                        //console.log(data);
+                        var html = "";
+                        $.each(data, function (i,
+                        emp) { //Recorremos los empleados y vamos obteniendo los valores
+                            html += '<tr>';
+                            html += '<td>' + emp.idEmpleado + '</td>';
+                            html += '<td>' + emp.apellido + '</td>';
+                            html += '<td>' + emp.oficio + '</td>';
+                            html += '<td>' + emp.salario + '</td>';
+                            html += '<td>' + emp.director + '</td>';
+                            html += '</tr>';
+                        });
+                        $('#tablaEmp').append(html);
+                    }
+                });
+            }
 
         });
     </script>
