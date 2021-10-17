@@ -67,6 +67,7 @@
         </div>
     </div>
     <script src="jquery-3.6.0.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         var urlapi = 'https://apicrudhospital.azurewebsites.net';
 
@@ -105,33 +106,50 @@
             });
 
             $('#botonModif').click(function () {
-                var id = parseInt($('#cajaid').val());
-                var nom = $('#cajanombre').val();
-                var dir = $('#cajadireccion').val();
-                var tel = parseInt($('#cajatelefono').val());
-                var cam = parseInt($('#cajacamas').val());
+                Swal.fire({
+                    title: '¿Estas seguro de que quieres modificar este hospital?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Si, modificar',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        var id = parseInt($('#cajaid').val());
+                        var nom = $('#cajanombre').val();
+                        var dir = $('#cajadireccion').val();
+                        var tel = parseInt($('#cajatelefono').val());
+                        var cam = parseInt($('#cajacamas').val());
 
-                var request = "/webresources/hospitales/put";
-                var hos = new Object();
-                hos.idhospital = id;
-                hos.nombre = nom;
-                hos.direccion = dir;
-                hos.telefono = tel;
-                hos.camas = cam;
+                        var request = "/webresources/hospitales/put";
+                        var hos = new Object();
+                        hos.idhospital = id;
+                        hos.nombre = nom;
+                        hos.direccion = dir;
+                        hos.telefono = tel;
+                        hos.camas = cam;
 
-                var json = JSON.stringify(hos);
-                console.log(json);
+                        var json = JSON.stringify(hos);
+                        console.log(json);
 
-                $.ajax({
-                    'url': urlapi + request,
-                    'type': 'PUT',
-                    'data': json,
-                    'contentType': 'application/json',
-                    success: function () {
-                        console.log('Modificado');
-                        cargarHospitales();
+                        $.ajax({
+                            'url': urlapi + request,
+                            'type': 'PUT',
+                            'data': json,
+                            'contentType': 'application/json',
+                            success: function () {
+                                console.log('Modificado');
+                                cargarHospitales();
+                            }
+                        });
+                        Swal.fire(
+                            'Hospital modificado correctamente'
+
+                        );
                     }
                 });
+
 
             });
 
@@ -144,13 +162,14 @@
 
         function cargarHospitales() {
             $('#tablahospitales tbody')
-        .empty(); //Vaciamos la tabla para evitar que se concatene a si misma cada vez que se ejecute esta función
+                .empty(); //Vaciamos la tabla para evitar que se concatene a si misma cada vez que se ejecute esta función
             var request = '/webresources/hospitales'; //Request para cargar los hospitales
             $.ajax({ //Configuramos ajax para obtener los hospitales
                 'url': urlapi + request,
                 'type': 'GET',
                 success: function (
-                data) { //Creamos dinamicamente una tabla con cada apartado, lo hago con js porque vamos a usar un par de botones para eliminar y modificar 
+                    data
+                ) { //Creamos dinamicamente una tabla con cada apartado, lo hago con js porque vamos a usar un par de botones para eliminar y modificar 
                     $.each(data, function (i, hospital) {
                         var tr = $('<tr>');
                         var tdid = $('<td>', {
@@ -174,29 +193,47 @@
                             'text': 'Eliminar',
                             'type': 'button',
                             'value': hospital
-                            .idhospital, //Al boton de eliminar le doy como valor el id del hospital
+                                .idhospital, //Al boton de eliminar le doy como valor el id del hospital
                             'class': 'btn btn-outline-danger mt-1 mb-1'
                         });
 
                         botonEliminar.click(function () { //Agregamos al boton el evento click
                             var id = $(this)
-                        .val(); //Nos guardamos el valor del boton, que es el id del hospital correspondiente
-                            var request = '/webresources/hospitales/delete/' +
-                            id; //Request de hospitales para eliminar por id
-                            $.ajax({ //Configuramos ajax 
-                                'url': urlapi + request,
-                                'type': 'DELETE',
-                                success: function () {
-                                    console.log('Eliminado!!');
-                                    cargarHospitales
-                                (); //Cargamos la tabla despues de eliminar para que se vean los datos
+                                .val(); //Nos guardamos el valor del boton, que es el id del hospital correspondiente
+                            Swal.fire({
+                                title: '¿Estas seguro de que quieres eliminar este hospital?',
+                                text: "No podrás revertir los cambios!",
+                                icon: 'warning',
+                                showCancelButton: true,
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor: '#d33',
+                                confirmButtonText: 'Si, eliminar',
+                                cancelButtonText: 'Cancelar'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    var request =
+                                        '/webresources/hospitales/delete/' +
+                                        id; //Request de hospitales para eliminar por id
+                                    $.ajax({ //Configuramos ajax 
+                                        'url': urlapi + request,
+                                        'type': 'DELETE',
+                                        success: function () {
+                                            console.log('Eliminado!!');
+                                            cargarHospitales
+                                                (); //Cargamos la tabla despues de eliminar para que se vean los datos
+                                        }
+                                    });
+                                    Swal.fire(
+                                        'Hospital eliminado correctamente'
+
+                                    );
                                 }
                             });
 
                         });
 
                         var tdelim = $('<td>').append(
-                        botonEliminar); //Agregamos al td el boton de eliminar
+                            botonEliminar); //Agregamos al td el boton de eliminar
 
 
 
@@ -217,7 +254,8 @@
                                 success: function (data) {
                                     $.each(data, function (i, hos) {
                                         if (id == hos
-                                            .idhospital) { //Cuando encuentre el id que coincide con el id del hospital
+                                            .idhospital
+                                        ) { //Cuando encuentre el id que coincide con el id del hospital
                                             //Cargamos en los value de los input los datos del hospital coincidente
                                             $('#cajaid').val(hos
                                                 .idhospital);
