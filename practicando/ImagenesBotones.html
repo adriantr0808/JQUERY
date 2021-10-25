@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        img{
+            margin: 1em;
+        }
+        button{
+            margin: 2em
+        }
+    </style>
+</head>
+<body>
+    <h1>Imagenes y botones</h1>
+    <input type="range" value='1' max='10' min='1'>
+    <hr/>
+    <div id='cajabotones'>
+
+    </div>
+    <div id='cajaimagenes'>
+
+    </div>
+    <script src='../jquery-3.6.0.min.js'></script>
+    <script>
+        $(document).ready(function(){
+            $('input').change(function(){
+                var num = $(this).val();
+                for(var i = 1; i <= num; i++){
+                    var boton = $('<button>', {
+                    'text': 'Imagen ' + i,
+                    'data-id': i
+                });
+
+             
+
+                $('#cajabotones').append(boton);
+
+
+                var img = $('<img>',{
+                    'src':'../img/1.jpg',
+                    'id': i,
+                    'width': '100px',
+                    'height': '75px'
+                })
+
+                $('#cajaimagenes').append(img);
+
+
+                boton.click(function(){
+                    var id = $(this).data('id');
+                   
+                   $('img').each(function(){
+                    if($(this).attr('id')==id){
+                        $(this).attr('src','../img/2.jpg');
+                    }
+                   });
+
+                });
+                }
+                
+            });
+        })
+    </script>
+</body>
+</html>

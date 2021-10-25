@@ -23,14 +23,14 @@
     <button type="button" id="botonsumar">Sumar chequeados</button>
     <h2 id="resultado"></h2>
     <hr />
-    <input type="checkbox">
-    <input type="checkbox">
-    <input type="checkbox">
-    <input type="checkbox">
-    <input type="checkbox">
-    <input type="checkbox">
-    <input type="checkbox">
-    <input type="checkbox">
+    <input type="checkbox"><label></label>
+    <input type="checkbox"><label></label>
+    <input type="checkbox"><label></label>
+    <input type="checkbox"><label></label>
+    <input type="checkbox"><label></label>
+    <input type="checkbox"><label></label>
+    <input type="checkbox"><label></label>
+    <input type="checkbox"><label></label>
     <script src="jquery-3.6.0.min.js"></script>
     <script>
         /* ASIGNAR A LAS CASILLAS NUMEROS DEL 1 AL 100 DE 
@@ -44,7 +44,8 @@
                 $('input[type=checkbox]').each(function () {
                     var aleatorio = parseInt((Math.random() * 100) + 1);
                     $(this).val(aleatorio);
-                    //$(this).text(aleatorio); En caso de que quisieramos ver los numeros
+                    $(this).next().text(aleatorio);
+                    // $(this).text(aleatorio); //En caso de que quisieramos ver los numeros
                 });
             }); 
             $('#botonsumar').click(function () {

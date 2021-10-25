@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        img{
+            margin: 1em;
+        }
+    </style>
+</head>
+<body>
+    <h1>Practica de imagenes</h1>
+    <input type='range' min='1' max='10' value='1'>
+    <div id="imagenes">
+
+    </div>
+    <script src='../jquery-3.6.0.min.js'></script>
+    <script>
+
+        $(document).ready(function(){
+            $('input').change(function(){
+                var num = parseInt($(this).val());
+                $('#imagenes').text('');
+                for(var i = 0; i <= num; i++){
+                    var img = $('<img>',{
+                        src : '../img/1.jpg',
+                        width:'200px',
+                        height:'150px',
+                       
+                    });
+
+                    img.mouseover(function(){
+                        $(this).attr('src','../img/2.jpg')
+                    });
+
+                    img.mouseout(function(){
+                        $(this).attr('src','../img/1.jpg');
+                    })
+
+                    $('#imagenes').append(img);
+                }
+
+                
+            });
+        });
+    </script>
+</body>
+</html>
