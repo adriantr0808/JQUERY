@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Practica de ISBN, DNI Y numeros</h1>
+    <script src='../jquery-3.6.0.min.js'></script>
+    <fieldset>
+        <legend>SUMAR NUMEROS</legend>
+
+        <label>Sumar numeros:</label>
+        <input type='text' id='cajaNumeros' />
+        <button id='sumarNumeros'>Sumar numeros</button>
+        <h2></h2>
+    </fieldset>
+    <fieldset>
+        <legend>COMPROBAR ISBN</legend>
+        <label>ISBN: </label>
+        <input type='text' id='cajaISBN'/>
+        <button id='comprobarISBN'>Comprobar ISBN</button>
+        <h3></h3>
+    </fieldset>
+    <fieldset>
+        <legend>COMPROBAR DNI</legend>
+        <label>DNI: </label>
+        <input type='text' id='cajaDNI'/>
+        <button id='comprobarDNI'>Comprobar DNI</button>
+        <h4></h4>
+    </fieldset>
+    <script>
+        $(document).ready(function () {
+
+            $('#sumarNumeros').click(function () {
+                var numeros = $('#cajaNumeros').val();
+                var suma = 0;
+                for (var i = 0; i < numeros.length; i++) {
+                    //CAPTURAMOS CADA NUMERO DE LA CADENA, Y VAMOS SUMANDO POR SEPARADO
+                    var numero = parseInt(numeros.charAt(i));
+                    console.log(numero);
+                    suma += numero;
+                }
+
+                $('h2').text("El resultado de la suma es: " + suma);
+            });
+
+            $('#comprobarISBN').click(function(){
+                $('h3').empty();
+                var isbn = $('#cajaISBN').val();
+                var suma = 0;
+                for(var i = 0; i<isbn.length; i++){
+                    var re = isbn[i]*(i+1);
+                    suma+=re;
+                }
+                if(suma%11==0){
+                    $('h3').text('El ISBN es corecto');
+                }else{
+                    $('h3').text('El ISBN NO es corecto');
+                }
+            });
+
+            $('#comprobarDNI').click(function(){
+                var letras  = 'TRWAGMYFPDXBNJZSQVHLCKET';
+                $('h4').empty();
+                if($('#cajaDNI').val()==''){
+                    $('h4').text('Introduce un DNI, por favor');
+                }else{
+                    var dni = $('#cajaDNI').val();
+                    var valor = (dni - (Math.trunc(dni/23)*23));
+                    var letra = letras.substr(valor,1);
+                    $('h4').text('La letra es: '+letra);
+                }
+            });
+
+
+        });
+    </script>
+</body>
+
+</html>
