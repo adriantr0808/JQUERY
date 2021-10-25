@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Lectura Simple XML</h1>
+    <button id='cargarEmpleados'>Cargar datos empleaos</button>
+    <script src='../../jquery-3.6.0.min.js'></script>
+    <div id='lista'></div>
+    <script>
+        $(document).ready(function(){
+            $('#cargarEmpleados').click(function(){
+                $.get('../../documents/xml/empleados.xml', function(data){
+                    var html='';
+                    $(data).find('APELLIDO').each(function(){
+                        var apellido = $(this).text();
+                        html += "<li>"+apellido+'<li>';
+                    });
+                    $('#lista').html(html);
+                    
+                });
+            });
+        });
+    </script>
+</body>
+</html>

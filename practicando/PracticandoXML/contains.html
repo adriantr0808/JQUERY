@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>BUSQUEDAS XML</h1>
+    <label for="">Apellido: </label>
+    <input type="text" id='cajaApellido'>
+    <button id='buscarApellido'>Buscar Apellidos</button>
+    <hr/>
+    <label for="">Código postal</label>
+    <input type="text" id='cajaCodPos'>
+    <hr/>
+    <div id='contenido'>
+
+    </div>
+    <script src='../../jquery-3.6.0.min.js'></script>
+    <script>
+        $(document).ready(function(){
+            $('#buscarApellido').click(function(){
+                var html= '';
+                var apellido = $('#cajaApellido').val();
+            $.get('../../documents/xml/empleados.xml', function(data){
+                var filtro = "APELLIDO:contains("+apellido+")";
+                if($(data).find(filtro).length==0){
+                    html += '<h1 style="color: red">NO HAY APELLIDOS</h1>'
+                }else{
+                    $(data).find(filtro).each(function(){
+                        console.log(filtro);
+                        var ape = $(this).text();
+                        html += "<h1>"+ape+"</h1>";
+                    });
+                }
+                $('#contenido').html(html);
+            });
+            })
+           
+        });
+    </script>
+</body>
+</html>
