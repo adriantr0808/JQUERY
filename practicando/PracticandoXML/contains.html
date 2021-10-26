@@ -14,6 +14,7 @@
     <hr/>
     <label for="">Código postal</label>
     <input type="text" id='cajaCodPos'>
+    <button id='botonHospital'>Buscar hospital</button>
     <hr/>
     <div id='contenido'>
 
@@ -37,7 +38,22 @@
                 }
                 $('#contenido').html(html);
             });
-            })
+            });
+
+            $('#botonHospital').click(function(){
+                var cod = $('#cajaCodPos').val();
+              
+                $.get('../../documents/xml/hospital_atributos.xml',function(data){
+                    var filtro = 'HOSPITAL[HOSPITAL_COD='+ cod+ ']';
+                    console.log(filtro);
+                   
+                    var nodohospital = $(data).find(filtro).first();
+                    console.log(nodohospital);
+                    var nombre =nodohospital.attr('NOMBRE');
+                    $('#contenido').text(nombre);
+                });
+
+            });
            
         });
     </script>

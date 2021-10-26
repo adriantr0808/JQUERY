@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD3 PRAC</title>
+    <link href='../../css/bootstrap.min.css' rel='stylesheet'>
+</head>
+
+<body>
+    <h1 class='p-4'>Practica CRUD3</h1>
+    <div class='w-auto m-auto'>
+        <div class='m-5'>
+            <label>Introduzca un salario: </label>
+            <input class='form-control' type='number' id='cajaSalario' placeholder='Introduce un salario' />
+            <button class ='btn btn-success mt-4' id='buscarEmpleados'>Buscar empleados</button>
+        </div>
+    </div>
+    <div id='info'></div>
+    <div class='m-5'>
+        <table class='table table-dark table-striped' id='tabla'>
+            <thead>
+                <th>APELLIDO</th>
+                <th>OFICIO</th>
+                <th>SALARIO</th>
+
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+    <script src='../../jquery-3.6.0.min.js'></script>
+    <script src='../../js/bootstrap.bundle.min.js'></script>
+    <script>
+        $(document).ready(function () {
+            var urlempleados = "https://apiempleadosspgs.azurewebsites.net/";
+            $('#buscarEmpleados').click(function () {
+                var salario = parseInt($('#cajaSalario').val());
+                var request = 'api/Empleados/EmpleadosSalario/' + salario;
+                $.ajax({
+                    'url': urlempleados + request,
+                    'type': 'GET',
+                    success: function (data) {
+                        $.each(data, function (index, emp) {
+                            var tr = $('<tr>');
+                            var tdape = $('<td>');
+                            var tdofi = $('<td>',{
+                                'text':emp.oficio
+                            });
+                            var tdsal = $('<td>',{
+                                'text':emp.salario
+                            });
+                            var a = $('<a>',{
+                                'text': emp.apellido,
+                                'href':'#',
+                                'id': emp.idEmpleado
+
+                            });
+
+                            a.click(function(){
+                                var id = $(this).attr('id');
+                                var request='api/Empleados/'+id;
+                                $.ajax({
+                                    'url': urlempleados + request,
+                                    'type': 'GET',
+                                    success: function(data){
+                                        var html ="";
+                                      
+                                        html += '<h1 class="m-5">Apellido: '+ data.apellido+'</h1>';
+                                        html += '<h1 class="m-5">Oficio: '+data.oficio+'</h1>';
+                                 
+                                        $('#info').html(html);
+                                    }
+                                })
+                            });
+
+                            tdape.append(a);
+
+                            tr.append(tdape);
+                            tr.append(tdofi);
+                            tr.append(tdsal);
+
+                            $('#tabla').append(tr);
+                        });
+                    }
+                })
+            })
+
+        });
+    </script>
+
+</body>
+
+</html>

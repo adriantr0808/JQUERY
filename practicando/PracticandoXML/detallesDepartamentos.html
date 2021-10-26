@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        button{
+            margin : 1em;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Detalles departamentos XML</h1>
+    <div id='cajabotones'>
+
+    </div>
+    <div id='info'></div>
+    <script src='../../jquery-3.6.0.min.js'></script>
+    <script>
+        $(document).ready(function () {
+            $.get('../../documents/xml/departamentosetiquetas.xml', function (data) {
+
+                $(data).find('NUMERO').each(function () {
+                    var numero = $(this).text();
+                    var button = $('<button>',{
+                        'type': 'button',
+                        'value': numero,
+                        'text': 'Detalles '+numero,
+                        
+                    });
+
+                   
+
+                    button.click(function(){
+                        var info =  "";
+                        var num = $(this).val();
+                        console.log(num);
+                        $.get('../../documents/xml/departamentosetiquetas.xml', function(data){
+                            $(data).find('DEPARTAMENTO').each(function(){
+                                var numero = $(this).find('NUMERO').text();
+                                console.log(numero);
+                                if(num == numero){
+                                    
+                                
+                                   info+="<p>Nombre: "+$(this).find('NOMBRE').text()+'</p>';
+                                    info+= '<p>Localidad: '+$(this).find('LOCALIDAD').text()+'</p>';
+                                    $('#info').html(info);
+                                }
+                            });
+                        });
+                    });
+
+                    $('#cajabotones').append(button);
+
+                })
+
+            });
+        });
+    </script>
+</body>
+
+</html>

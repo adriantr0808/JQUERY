@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jugadores PRAC</title>
+</head>
+<body>
+    <h1>Ejemplo Jugadores JQUERY</h1>
+    <select id='selectjugadores'></select>
+    <div id='info'></div>
+    <script src='../../jquery-3.6.0.min.js'></script>
+    <script>
+        $(document).ready(function(){
+            $.ajax({
+                'url':'../../documents/json/jugadores.json',
+                'method': 'GET',
+                'dataType':'json',
+                success: function(data){
+                
+                   $.each(data.jugadores, function(index, jugador){
+                        var option = $('<option>',{
+                            'text':jugador.nombre,
+                            'value': jugador.nombre
+                        });
+
+                        $('#selectjugadores').append(option);
+                   });
+                }
+            })
+
+            $('#selectjugadores').change(function(){
+                $('#info').empty();
+                var pos = $(this).prop('selectedIndex');
+                $.ajax({
+                'url':'../../documents/json/jugadores.json',
+                'method': 'GET',
+                'dataType':'json',
+                success: function(data){
+                    var html = '';
+                    var jugador = data.jugadores[pos];
+
+                    html += '<h2>'+jugador.numero+'</h2>';
+                    html += '<h2>'+jugador.posicion+'</h2>';
+                    html += '<h2>'+jugador.edad+'</h2>';
+                    html += "<img width='400px' height='250px' src='" + jugador.imagen+"'/>";
+
+                    $('#info').append(html);
+                }
+            })
+
+            });
+        });
+    </script>
+</body>
+</html>

@@ -16,7 +16,7 @@
     <script src="../jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function () {
-            $.get("documents/xml/departamentosetiquetas.xml", function (data) {
+            $.get("../documents/xml/departamentosetiquetas.xml", function (data) {
                 //DEBEMOS RECORRER CADA NUMERO
                 $(data).find("NUMERO").each(function () {
                     //RECUPERAMOS EL VALOR DE CADA TAG <NUMERO>
@@ -36,10 +36,11 @@
                         var numero = $(this).val();
                         //ACCEDEMOS AL SERVICIO PARA BUSCAR
                         //EL DEPARTAMENTO POR SU NUMERO
-                        $.get("documents/xml/departamentosetiquetas.xml", function (
+                        $.get("../documents/xml/departamentosetiquetas.xml", function (
                             data) {
                             $(data).find("DEPARTAMENTO").each(function () {
                                 var codigo = $(this).find("NUMERO").text();
+                                console.log(codigo);
                                 if (codigo == numero) {
                                     var nombre = $(this).find("NOMBRE").text();
                                     var localidad =$(this).find("LOCALIDAD") .text();

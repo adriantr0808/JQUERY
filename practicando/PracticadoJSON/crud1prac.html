@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD1 PRAC</title>
+</head>
+
+<body>
+    <h1>Practicando CRUD con Jquery</h1>
+    <div id='datos'>
+        <label for="">Número: </label>
+        <input type='number' id='cajaNumero' />
+        <label for="">Nombre: </label>
+        <input type='text' id='cajaNombre' />
+        <label for="">Localidad: </label>
+        <input type='text' id='cajaLocalidad' />
+        <div>
+            <button id='botonInsertar'>Insertar departamento</button>
+            <button id='botonModificar'>Modificiar departamento</button>
+            <button id='botonEliminar'>Eliminar departamento</button>
+        </div>
+    </div>
+    <div>
+        <table border='1' id='tabla'>
+            <thead>
+                <tr>
+                    <th>Numero</th>
+                    <th>Nombre</th>
+                    <th>Localidad</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+    <script src='../../jquery-3.6.0.min.js'></script>
+    <script>
+        $(document).ready(function () {
+            var urlapi = "https://apicruddepartamentoscore.azurewebsites.net";
+            cargarDepartamentos();
+
+            function cargarDepartamentos() {
+                var request = '/api/Departamentos';
+                $.ajax({
+                    'url': urlapi + request,
+                    'type': 'GET',
+                    success: function (data) {
+                        var html = "";
+                        $.each(data, function (index, dept) {
+                            html += '<tr>';
+                            html += '<td>' + dept.numero + '</td>';
+                            html += '<td>' + dept.nombre + '</td>';
+                            html += '<td>' + dept.localidad + '</td>';
+                            html += '</tr>';
+                        });
+
+                        $('#tabla tbody').html(html);
+                    }
+                })
+            }
+
+            $('#botonInsertar').click(function () {
+
+                var num = parseInt($('#cajaNumero').val());
+                var nom = $('#cajaNombre').val();
+                var loc = $('#cajaLocalidad').val();
+
+                var dept = new Object();
+
+                dept.numero = num;
+                dept.nombre = nom;
+                dept.localidad = loc;
+
+                var json = JSON.stringify(dept);
+                console.log(json);
+
+                var request = '/api/Departamentos'
+                $.ajax({
+                    'url': urlapi + request,
+                    'type': 'POST',
+                    'data': json,
+                    'contentType': 'application/json',
+                    success: function () {
+                        cargarDepartamentos();
+                    }
+                })
+            });
+
+            $('#botonModificar').click(function () {
+                var num = parseInt($('#cajaNumero').val());
+                var nom = $('#cajaNombre').val();
+                var loc = $('#cajaLocalidad').val();
+
+                var dept = new Object();
+
+                dept.numero = num;
+                dept.nombre = nom;
+                dept.localidad = loc;
+
+                var json = JSON.stringify(dept);
+                console.log(json);
+
+                var request = '/api/Departamentos';
+
+                $.ajax({
+                    'url':urlapi + request,
+                    'type': 'PUT',
+                    'data':json,
+                    'contentType': 'application/json',
+                    success: function(){
+                        cargarDepartamentos();
+                    }
+                })
+            });
+
+            $('#botonEliminar').click(function(){
+                var num = parseInt($('#cajaNumero').val());
+                var request = '/api/Departamentos/'+num;
+
+                $.ajax({
+                    'url': urlapi+request,
+                    'type':'DELETE',
+                    success: function(){
+                        cargarDepartamentos();
+                    }
+                })
+            });
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD2 PRAC</title>
+</head>
+
+<body>
+    <h1>Maestro detalle Servicios Api JQuery</h1>
+    <table border='1' id='tabla'>
+        <thead>
+            <tr>
+                <th>NUMERO</th>
+                <th>NOMBRE</th>
+                <th>LOCALIDAD</th>
+                <th>ACCION</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+    <table border='1' id='tablaEmp'>
+        <thead>
+            <tr>
+                <th>APELLIDO</th>
+                <th>OFICIO</th>
+                <th>DEPARTAMENTO</th>
+               
+            </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+    <script src='../../jquery-3.6.0.min.js'></script>
+    <script>
+        $(document).ready(function () {
+            var urlapi='https://apicruddepartamentoscore.azurewebsites.net'
+            cargarDepartamentos();
+
+            function cargarDepartamentos() {
+                var request = '/api/Departamentos';
+               
+                $.ajax({
+                    'url': urlapi + request,
+                    'type': 'GET',
+                    success: function (data) {
+                        var html = "";
+                        $.each(data, function (index, dept) {
+                            var tr = $('<tr>');
+                            var tdnum = $('<td>', {
+                                'text': dept.numero
+                            });
+                            var tdnom = $('<td>', {
+                                'text': dept.nombre
+                            });
+                            var tdloc = $('<td>', {
+                                'text': dept.localidad
+                            });
+                            var tdboton = $('<td>');
+                            
+                            var boton = $('<button>',{
+                                'text': 'Empleados',
+                                'value':dept.numero
+                            });
+
+                            boton.click(function(){
+                                var dept = $(this).val();
+                                cargarEmpleados(dept);
+                            });
+
+                            tdboton.append(boton);
+
+                            tr.append(tdnum);
+                            tr.append(tdnom);
+                            tr.append(tdloc);
+                            tr.append(tdboton)
+                            $('#tabla tbody').append(tr);
+
+                        });
+
+
+                    }
+                })
+            }
+
+            function cargarEmpleados(dept){
+                var request = 'api/Empleados/EmpleadosDepartamento/'+dept;
+                var urlapiemp='https://apiempleadosspgs.azurewebsites.net/';
+                $.ajax({
+                    'url': urlapiemp + request,
+                    'type': 'GET',
+                    success: function(data){
+                        var html = '';
+                        $.each(data,function(index, emp){
+                            html += '<tr>';
+                            html += '<td>' + emp.apellido + '</td>';
+                            html += '<td>' + emp.oficio + '</td>';
+                            html += '<td>' + emp.departamento + '</td>';
+                            html += '</tr>';
+                        });
+                        $('#tablaEmp tbody').html(html);
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>
